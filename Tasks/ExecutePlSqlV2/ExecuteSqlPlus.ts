@@ -18,7 +18,10 @@ async function run(): Promise<void> {
             port: parseInt(tl.getInput('PortNumber', true)),
             serviceName: tl.getInput('ServiceName', true),
             isFailOnSqlError: tl.getBoolInput('FailOnSqlError', true),
+            isShowWarnings: tl.getBoolInput('ShowWarnings', true),
             isDebug: tl.getBoolInput('DebugSQL', true),
+            isDefineEscape: tl.getBoolInput('DefineEscape', true),
+            isUseSubstitutionVariables: tl.getBoolInput('UseSubstitutionVariables', true),
             substitutionCharacter: tl.getInput('SubstitutionCharacter', true)
         };
 

@@ -75,6 +75,7 @@ export class GitDiffRunner {
         const usersArray: Array<string> = [];
         const viewsArray: Array<string> = [];
         const profilesArray: Array<string> = [];
+        const synonymsArray: Array<string> = [];
         let outputString: string = '';
         diffArray.forEach(function (element: string) {
 
@@ -122,7 +123,10 @@ export class GitDiffRunner {
             if (element.toUpperCase().startsWith('@MATERIALIZED VIEWS')) {
                 viewsArray.push(element.replace('@', '@"').replace(';', '\";'));
             }
-
+            
+            if (element.toUpperCase().startsWith('@SYNONYMS')) {
+                synonymsArray.push(element.replace('@', '@"').replace(';', '\";'));
+            }
         });
 
         if (profilesArray.length > 0) { outputString += profilesArray.join('\n') + '\n'; }
@@ -157,6 +161,8 @@ export class GitDiffRunner {
         if (triggersArray.length > 0) { outputString += triggersArray.join('\n') + '\n'; }
 
         if (rolesArray.length > 0) { outputString += rolesArray.join('\n') + '\n'; }
+
+        if (synonymsArray.length > 0) { outputString += synonymsArray.join('\n') + '\n'; }
 
         if (scriptsArray.length > 0) { outputString += scriptsArray.join('\n') + '\n'; }
 

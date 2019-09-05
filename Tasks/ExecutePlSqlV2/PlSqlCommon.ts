@@ -15,8 +15,8 @@ export enum InputType {
     AutoMagic = 'AutoMagic'
 }
 
-/** SqlPlus Ouput type enum */
-enum SqlPlusOutputType {
+/** SqlPlus Output type enum */
+export enum SqlPlusOutputType {
     Standard,
     Warning,
     Error
@@ -35,8 +35,10 @@ export interface ISqlPlusInput {
     /** optional. Array of substitution variables that will be passed to sqlplus */
     substitutionVariables: Array<ISubstitutionVariable>;
 
-    /** Prepare the input if needed and validate that we have what we need.  If the input is not valid an error will be thrown. */
-    prepareAndValidate(): void;
+    /** Prepare the input if needed and validate that we have what we need.  If the input is not valid an error will be thrown.
+     * @param isUseSubstitutionVariables Optional Is substitution variables enabled.
+    */
+    prepareAndValidate(isUseSubstitutionVariables?: boolean): void;
 }
 
 /** Interface for substitution variables */
@@ -88,14 +90,23 @@ export interface ISqlPlusConfiguration {
     /** optional. Where should sqlplus be used/sourced from.  defaults to installed on agent machine in path. */
     toolSource: ISqlPlusToolSource;
 
-    /** optional. Fail execution if a sql error is encoutnered. defaults to true */
+    /** optional. Fail execution if a sql error is encountered. defaults to true */
     isFailOnSqlError: boolean;
 
     /** optional. Should sqlplus output the statements being executed. defaults to false */
     isDebug: boolean;
 
+    /** optional. Should warnings actually be warnings in the pipeline.  defaults to true. */
+    isShowWarnings?: boolean;
+
     /** The character that will be used to identify substitution variables */
     substitutionCharacter: string;
+
+    /** optional.  Should substitution variables be used in the script.  defaults to true. */
+    isUseSubstitutionVariables?: boolean;
+
+    /** optional.  Should we define the escape character for the script.  defaults to true. */
+    isDefineEscape?: boolean;
 }
 
 /** Represents sqlplus installed on the agent machine */
@@ -129,12 +140,15 @@ export class StandardSqlPlusInput implements ISqlPlusInput {
         this.substitutionVariables = new Array();
     }
 
-    public prepareAndValidate(): void {
+    public prepareAndValidate(isUseSubstitutionVariables?: boolean): void {
         if ((this.type === InputType.File || this.type === InputType.Script) && this.content === '') {
             throw new Error(tl.loc('NoInputContentError'));
         }
         if (this.type === InputType.File && !tl.exist(this.content)) {
             throw new Error(tl.loc('ScriptFileNotFoundError', this.content));
+        }
+        if (!isUseSubstitutionVariables && this.substitutionVariables.length > 0) {
+            throw new Error(tl.loc('SubstitutionError'));
         }
     }
 }
@@ -157,9 +171,13 @@ export class AutoMagicSqlPlusInput implements ISqlPlusInput {
         };
     }
 
-    public prepareAndValidate(): void {
+    public prepareAndValidate(isUseSubstitutionVariables?: boolean): void {
         if (this.type !== InputType.AutoMagic) {
             throw new Error(tl.loc('InputTypeError'));
+        }
+
+        if (!isUseSubstitutionVariables && this.substitutionVariables.length > 0) {
+            throw new Error(tl.loc('SubstitutionError'));
         }
 
         // Generate the deployment.sql file
@@ -202,7 +220,7 @@ export class SqlPlusRunner {
      */
     public async exec(sqlScript: ISqlPlusInput): Promise<number> {
         this._debugScript(sqlScript);
-        sqlScript.prepareAndValidate();
+        sqlScript.prepareAndValidate(this.config.isUseSubstitutionVariables);
         this.currentInput = sqlScript;
 
         // Make sure we can run sqlplus.  An error will be thrown if we cannot
@@ -243,8 +261,17 @@ export class SqlPlusRunner {
         if (this.config.isFailOnSqlError === undefined) {
             this.config.isFailOnSqlError = true;
         }
+        if (this.config.isShowWarnings === undefined) {
+            this.config.isShowWarnings = true;
+        }
         if (this.config.isDebug === undefined) {
             this.config.isDebug = false;
+        }
+        if (this.config.isUseSubstitutionVariables === undefined) {
+            this.config.isUseSubstitutionVariables = true;
+        }
+        if (this.config.isDefineEscape) {
+            this.config.isDefineEscape = true;
         }
         if (this.config.toolSource === undefined) {
             this.config.toolSource = new InstalledSqlPlusSource();
@@ -260,7 +287,10 @@ export class SqlPlusRunner {
         tl.debug(`config.serviceName=${this.config.serviceName}`);
         tl.debug(`config.tempScriptPath=${this.config.tempScriptPath}`);
         tl.debug(`config.isFailOnSqlError=${this.config.isFailOnSqlError}`);
+        tl.debug(`config.isShowWarnings=${this.config.isShowWarnings}`);
         tl.debug(`config.isDebug=${this.config.isDebug}`);
+        tl.debug(`config.isDefineEscape=${this.config.isDefineEscape}`);
+        tl.debug(`config.isUseSubstitutionVariables=${this.config.isUseSubstitutionVariables}`);
         tl.debug(`config.substitutionCharacter=${this.config.substitutionCharacter}`);
         tl.debug('-----------------------------------------------------');
     }
@@ -314,14 +344,16 @@ export class SqlPlusRunner {
         }
 
         // Build out the parts to the script we will need to feed sqlPlus
+        const sqlEscape: string = this.config.isDefineEscape ? 'SET ESCAPE \\' : '';
         const sqlExitOnError: string = this.config.isFailOnSqlError ? 'WHENEVER SQLERROR EXIT SQL.SQLCODE;' : '';
+        const sqlSetDefine: string = this._defineSubstitutionCharacter();
         const sqlSubVariables: string = this._defineSubstitutionVariables();
         const sqlScript: string = (this.currentInput.type === InputType.File || this.currentInput.type === InputType.AutoMagic) ? `@${path.basename(this.currentInput.content)}` : this.currentInput.content;
 
         // Now build the script
         const sql: string = `SET ECHO ON
-SET ESCAPE \\
-SET DEFINE "${this.config.substitutionCharacter}"
+${sqlEscape}
+${sqlSetDefine}
 ${sqlExitOnError}
 ${sqlSubVariables}
 
@@ -333,15 +365,26 @@ exit;`;
         return sql;
     }
 
+    private _defineSubstitutionCharacter(): string {
+        let result: string = 'SET DEFINE OFF';
+
+        if (this.config.isUseSubstitutionVariables){
+            result = `SET DEFINE "${this.config.substitutionCharacter}"`;
+        }
+
+        return result;
+    }
+
     private _defineSubstitutionVariables(): string {
         let result: string = '';
 
         this.currentInput.substitutionVariables.forEach(v => {
             /**
-             * Note: We are escaping all & in the values to not treat them as a substituion variable name.
+             * Note: We are escaping all & in the values to not treat them as a substitution variable name.
              * That will prevent chaining in the values, but can be solved by variables in the task inputs.
              */
-            result += `DEFINE ${v.name} = ${v.value.replace('&', '\\&')};
+            const value = this.config.isDefineEscape ? v.value.replace('&', '\\&') : v.value;
+            result += `DEFINE ${v.name} = ${value};
 `;
         });
 
@@ -358,11 +401,11 @@ exit;`;
     private _processStandardOut(data: any) {
         const lines = this._parseToLines(data);
         lines.forEach(l => {
-            const type: SqlPlusOutputType = this._getOuputType(l);
+            const type: SqlPlusOutputType = getOutputType(l);
             if (type === SqlPlusOutputType.Error) {
                 tl.error(l);
                 this.isSuccess = false;  // Flag incase sqlplus exits with code 0
-            } else if (type === SqlPlusOutputType.Warning) {
+            } else if (type === SqlPlusOutputType.Warning && this.config.isShowWarnings) {
                 tl.warning(l);
             } else {
                 console.log(l);
@@ -397,26 +440,11 @@ exit;`;
             if (s) {
                 result.push(s);
             }
-        }
-        catch (err) {
+        } catch (err) {
             tl.debug(`Error processing line: ${err}`);
         }
 
         return result;
-    }
-
-    private _getOuputType(line: string): SqlPlusOutputType {
-        const oraErrorRegEx = new RegExp('ORA-\\d+:|PLS-\\d+:|SP2-0546:|SP2-0310:', 'gi');
-
-        if (line.startsWith('ERROR at line')) {
-            return SqlPlusOutputType.Error;
-        }
-        if (oraErrorRegEx.test(line)) {
-            return SqlPlusOutputType.Error;
-        }
-
-        // We have standard output when we make it here
-        return SqlPlusOutputType.Standard;
     }
 }
 
@@ -458,7 +486,7 @@ export function getSqlScript(inputType: InputType): ISqlPlusInput {
 export function parseSubstitutionVariables(variables: string): Array<ISubstitutionVariable> {
     const list: Array<ISubstitutionVariable> = new Array();
 
-    // Do not continute if there is nothing to parse
+    // Do not continue if there is nothing to parse
     if (!variables) {
         return list;
     }
@@ -483,4 +511,35 @@ export function parseSubstitutionVariables(variables: string): Array<ISubstituti
     }
 
     return list;
+}
+
+export function getOutputType(line: string): SqlPlusOutputType {
+    // Determine what should be an error. Everything with the error regex will always be considered an error.
+    // The possible error regex will be considered errors, but examined to see if it should be a warning
+    // like SP2-0804: Procedure created with compilation warnings which is just a warning
+    // SP2-0310: unable to open file "LOGIN.SQL"    will be ignored as it does not prevent the script from executing.
+    const errorRegEx = new RegExp('ORA-\\d+:|PLS-\\d+:|ERROR at line|created with compilation errors', 'gi');
+    const possibleErrorRegEx = new RegExp('SP2-(?!(?:0804|0810))\\d+:', 'gi');
+    const warningRegEx = new RegExp('PLW-\\d+:|SP2-(0804|0810):|created with compilation warnings', 'gi');
+
+    if (errorRegEx.test(line)) {
+        return SqlPlusOutputType.Error;
+    }
+    if (possibleErrorRegEx.test(line)) {
+        if (line.toLowerCase().includes('sp2-0310: unable to open file "login.sql"')) {
+            return SqlPlusOutputType.Standard;
+        }
+        if (line.toLowerCase().includes('created with compilation warnings')) {
+            return SqlPlusOutputType.Warning;
+        }
+
+        return SqlPlusOutputType.Error;
+    }
+    if (warningRegEx.test(line)) {
+        return SqlPlusOutputType.Warning;
+    }
+
+
+    // We have standard output when we make it here
+    return SqlPlusOutputType.Standard;
 }

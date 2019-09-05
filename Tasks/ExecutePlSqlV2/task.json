@@ -14,9 +14,10 @@
   ],
   "version": {
     "Major": "2",
-    "Minor": "0",
+    "Minor": "2",
     "Patch": "0"
   },
+  "releaseNotes": "Added Define Escape and Use Substitution Variables advanced options.",
   "minimumAgentVersion": "1.104.0",
   "instanceNameFormat": "Execute PL/SQL Script",
   "groups": [
@@ -167,6 +168,15 @@
       "helpMarkDown": "Uncheck this if you do not want the task to fail on SQL Error."
     },
     {
+      "name": "ShowWarnings",
+      "type": "boolean",
+      "label": "Show Warnings",
+      "required": true,
+      "defaultValue": "true",
+      "groupName": "Advanced",
+      "helpMarkDown": "Check this if you want warnings to be highlighted in the logs as warnings.  When not checked they will be ignored."
+    },
+    {
       "name": "DebugSQL",
       "type": "boolean",
       "label": "Debug",
@@ -174,6 +184,24 @@
       "defaultValue": "false",
       "groupName": "Advanced",
       "helpMarkDown": "Check this if you want the SQL Statements output to the log."
+    },
+    {
+      "name": "DefineEscape",
+      "type": "boolean",
+      "label": "Define Escape",
+      "required": true,
+      "defaultValue": "true",
+      "groupName": "Advanced",
+      "helpMarkDown": "Un-check this if you want to exclude SET ESCAPE \\ from the script."
+    },
+    {
+      "name": "UseSubstitutionVariables",
+      "type": "boolean",
+      "label": "Use Substitution Variables",
+      "required": true,
+      "defaultValue": "true",
+      "groupName": "Advanced",
+      "helpMarkDown": "Un-check this if you want want SET DEFINE OFF, which turns off Substitution Variables."
     }
   ],
   "execution": {
@@ -193,7 +221,8 @@
     "InputTypeError": "Input type is not allowed for automatic",
     "UnknownInputTypeError": "Unknown input type '%s'",
     "AutoMagicFileFailure": "Failure writing deployment.sql. Error: %s",
-    "ScriptFileNotFoundError":"The file %s was not found",
-    "GitExitCodeError": "git Exited with Code: %s"
+    "ScriptFileNotFoundError": "The file %s was not found",
+    "GitExitCodeError": "git Exited with Code: %s",
+    "SubstitutionError": "Substitution variables provided when Use Substitution Variables is false"
   }
 }
