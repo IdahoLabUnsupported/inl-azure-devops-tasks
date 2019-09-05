@@ -10,7 +10,11 @@
 [Tt]ests/**/*.js
 [Tt]ests/**/*.js.map
 !**/mock_node_modules/**/*.js
+_[Bb]uild/
+_download/
 .taskkey
+Strings/
+task.loc.json
 
 # User-specific files
 *.suo
