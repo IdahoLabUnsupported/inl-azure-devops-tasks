@@ -1,0 +1,156 @@
+{
+  "id": "41816b60-c689-11e8-b1f7-6d3957be3a23",
+  "name": "INLExecutePlSql",
+  "friendlyName": "Execute PL/SQL",
+  "description": "Execute PL/SQL script in Git using sqlplus",
+  "author": "INL",
+  "helpMarkDown": "",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+  ],
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "minimumAgentVersion": "1.104.0",
+  "instanceNameFormat": "Execute PL/SQL Script",
+  "groups": [
+    {
+      "name": "ConnectionString",
+      "displayName": "TNS Connection",
+      "isExpanded": true
+    },
+    {
+      "name": "Advanced",
+      "displayName": "Advanced",
+      "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "SQLRunType",
+      "type": "pickList",
+      "label": "Script type",
+      "required": true,
+      "defaultValue": "ScriptFile",
+      "options": {
+        "Script": "Inline PL SQL Script",
+        "ScriptFile": "PL SQL Script File"
+      },
+      "helpMarkDown": "You can run a SQL Script file or run an inline SQL Script."
+    },
+    {
+      "name": "UserName",
+      "type": "string",
+      "label": "Username",
+      "defaultValue": "$(DatabaseUserName)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "Provide the username that will be use to connect to the database."
+    },
+    {
+      "name": "UserPassword",
+      "type": "string",
+      "label": "Password",
+      "defaultValue": "$(DatabaseUserPassword)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "Provide the password for the user that will be use to connect to the database."
+    },
+    {
+      "name": "HostName",
+      "type": "string",
+      "label": "Host Name",
+      "defaultValue": "$(DatabaseHostName)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "The host name of the server where the script should be run."
+    },
+    {
+      "name": "PortNumber",
+      "type": "string",
+      "label": "Port",
+      "defaultValue": "$(DatabasePortNumber)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "The port number that will be used to connect to the database."
+    },
+    {
+      "name": "ServiceName",
+      "type": "string",
+      "label": "Service Name",
+      "defaultValue": "$(DatabaseServiceName)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "The sevice name of the database."
+    },
+    {
+      "name": "SQLScriptPath",
+      "type": "filePath",
+      "label": "Deployment SQL Script",
+      "defaultValue": "$(System.DefaultWorkingDirectory)/Artifacts/deployment.sql",
+      "required": false,
+      "visibleRule": "SQLRunType = ScriptFile",
+      "helpMarkDown": "The path to the deployment sql script file."
+    },
+    {
+      "name": "SQLScript",
+      "type": "multiLine",
+      "label": "PL SQL",
+      "defaultValue": "",
+      "required": false,
+      "visibleRule": "SQLRunType = Script",
+      "helpMarkDown": "The inline PL SQL Script that should be run on the target database."
+    },
+    {
+      "name": "Parameters",
+      "type": "multiLine",
+      "label": "Substitution Variables",
+      "defaultValue": "",
+      "required": false,
+      "properties": {
+        "resizable": "true",
+        "rows": "2",
+        "editorExtension": "ms.vss-services-azure.parameters-grid",
+        "displayFormat": "{{#parameters}}{{key}} = {{value}}\n{{/parameters}}"
+      },
+      "helpMarkDown": "Click on the extension [...] button to add Substitution Variables."
+    },
+    {
+      "name": "FailOnSqlError",
+      "type": "boolean",
+      "label": "Fail On SQL Error",
+      "required": true,
+      "defaultValue": "true",
+      "groupName": "Advanced",
+      "helpMarkDown": "Uncheck this if you do not want the task to fail on SQL Error."
+    },
+    {
+      "name": "DebugSQL",
+      "type": "boolean",
+      "label": "Debug",
+      "required": true,
+      "defaultValue": "false",
+      "groupName": "Advanced",
+      "helpMarkDown": "Check this if you want the SQL Statements output to the log."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "ExecuteSqlPlus.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "Success": "Execute PL SQL Complete",
+    "UnhandledProcessFailure": "Failure during processing. Error: %s",
+    "SqlPlusExitCodeError": "Sqlplus Exited with Code: %s",
+    "SqlPlusError": "Sqlplus encountered an error running the script",
+    "ExtractError": "Extracting sqlplus exited with Code: %s"
+  }
+}
