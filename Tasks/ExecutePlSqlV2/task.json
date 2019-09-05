@@ -1,0 +1,199 @@
+{
+  "id": "41816b60-c689-11e8-b1f7-6d3957be3a23",
+  "name": "INLExecutePlSql",
+  "friendlyName": "Execute PL/SQL",
+  "description": "Execute PL/SQL script in Git using sqlplus",
+  "author": "INL",
+  "helpMarkDown": "",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+  ],
+  "version": {
+    "Major": "2",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "minimumAgentVersion": "1.104.0",
+  "instanceNameFormat": "Execute PL/SQL Script",
+  "groups": [
+    {
+      "name": "ConnectionString",
+      "displayName": "TNS Connection",
+      "isExpanded": true
+    },
+    {
+      "name": "Advanced",
+      "displayName": "Advanced",
+      "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "SQLRunType",
+      "type": "pickList",
+      "label": "Script type",
+      "required": true,
+      "defaultValue": "ScriptFile",
+      "options": {
+        "Script": "Inline PL SQL Script",
+        "ScriptFile": "PL SQL Script File",
+        "AutoMagic": "Auto-Magic"
+      },
+      "helpMarkDown": "You can run a SQL Script file, run an inline SQL Script or let TFS try to determine what files and what order to run a Git diff"
+    },
+    {
+      "name": "UserName",
+      "type": "string",
+      "label": "Username",
+      "defaultValue": "$(DatabaseUserName)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "Provide the username that will be use to connect to the database."
+    },
+    {
+      "name": "UserPassword",
+      "type": "string",
+      "label": "Password",
+      "defaultValue": "$(DatabaseUserPassword)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "Provide the password for the user that will be use to connect to the database."
+    },
+    {
+      "name": "HostName",
+      "type": "string",
+      "label": "Host Name",
+      "defaultValue": "$(DatabaseHostName)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "The host name of the server where the script should be run."
+    },
+    {
+      "name": "PortNumber",
+      "type": "string",
+      "label": "Port",
+      "defaultValue": "$(DatabasePortNumber)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "The port number that will be used to connect to the database."
+    },
+    {
+      "name": "ServiceName",
+      "type": "string",
+      "label": "Service Name",
+      "defaultValue": "$(DatabaseServiceName)",
+      "groupName": "ConnectionString",
+      "required": true,
+      "helpMarkDown": "The sevice name of the database."
+    },
+    {
+      "name": "SQLScriptPath",
+      "type": "filePath",
+      "label": "Deployment SQL Script",
+      "defaultValue": "$(System.DefaultWorkingDirectory)/RepoNameHere/deployment.sql",
+      "required": false,
+      "visibleRule": "SQLRunType = ScriptFile",
+      "helpMarkDown": "The path to the deployment sql script file."
+    },
+    {
+      "name": "StartCommit",
+      "type": "string",
+      "label": "Start Commit",
+      "defaultValue": "$(Artifact.CommonAncestor)",
+      "required": false,
+      "visibleRule": "SQLRunType = AutoMagic",
+      "helpMarkDown": "The starting commit of the Git diff."
+    },
+    {
+      "name": "EndCommit",
+      "type": "string",
+      "label": "End Commit",
+      "defaultValue": "$(Release.Artifacts.RepoNameHere.BuildId)",
+      "required": false,
+      "visibleRule": "SQLRunType = AutoMagic",
+      "helpMarkDown": "The ending commit of the Git diff."
+    },
+    {
+      "name": "RepoLocation",
+      "type": "filePath",
+      "label": "Deployment SQL Script",
+      "defaultValue": "$(System.DefaultWorkingDirectory)/RepoNameHere/",
+      "required": false,
+      "visibleRule": "SQLRunType = AutoMagic",
+      "helpMarkDown": "The path to the repo to be diff'd and deployed."
+    },
+    {
+      "name": "SQLScript",
+      "type": "multiLine",
+      "label": "PL SQL",
+      "defaultValue": "",
+      "required": false,
+      "visibleRule": "SQLRunType = Script",
+      "helpMarkDown": "The inline PL SQL Script that should be run on the target database."
+    },
+    {
+      "name": "SubstitutionCharacter",
+      "type": "string",
+      "label": "Substitution Character",
+      "defaultValue": "`",
+      "required": true,
+      "helpMarkDown": "This is defaulted to ` instead of & to allow the ampersand to be used in scripts.  To change back set it here or use SET DEFINE ON in your scripts."
+    },
+    {
+      "name": "Parameters",
+      "type": "multiLine",
+      "label": "Substitution Variables",
+      "defaultValue": "",
+      "required": false,
+      "properties": {
+        "resizable": "true",
+        "rows": "2",
+        "editorExtension": "ms.vss-services-azure.parameters-grid",
+        "displayFormat": "{{#parameters}}{{key}} = {{value}}\n{{/parameters}}"
+      },
+      "helpMarkDown": "Click on the extension [...] button to add Substitution Variables."
+    },
+    {
+      "name": "FailOnSqlError",
+      "type": "boolean",
+      "label": "Fail On SQL Error",
+      "required": true,
+      "defaultValue": "true",
+      "groupName": "Advanced",
+      "helpMarkDown": "Uncheck this if you do not want the task to fail on SQL Error."
+    },
+    {
+      "name": "DebugSQL",
+      "type": "boolean",
+      "label": "Debug",
+      "required": true,
+      "defaultValue": "false",
+      "groupName": "Advanced",
+      "helpMarkDown": "Check this if you want the SQL Statements output to the log."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "ExecuteSqlPlus.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "Success": "Execute PL SQL Complete",
+    "UnhandledProcessFailure": "Failure during processing. Error: %s",
+    "SqlPlusExitCodeError": "Sqlplus Exited with Code: %s",
+    "SqlPlusError": "Sqlplus encountered an error running the script",
+    "SqlPlusNotFoundError": "Sqlplus was not found",
+    "ExtractError": "Extracting sqlplus exited with Code: %s",
+    "NoInputContentError": "No content specified for SQL Input",
+    "InputTypeError": "Input type is not allowed for automatic",
+    "UnknownInputTypeError": "Unknown input type '%s'",
+    "AutoMagicFileFailure": "Failure writing deployment.sql. Error: %s",
+    "ScriptFileNotFoundError":"The file %s was not found",
+    "GitExitCodeError": "git Exited with Code: %s"
+  }
+}
