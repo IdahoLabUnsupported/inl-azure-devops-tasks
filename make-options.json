@@ -1,0 +1,26 @@
+{
+    "tasksExcluded": [
+    ],
+    "taskResources": [
+        "*.ps1",
+        "*.psd1",
+        "*.psm1",
+        "*.sh",
+        "*.txt",
+        "icon.png",
+        "icon.svg",
+        "module.json",
+        "ps_modules",
+        "package.json",
+        "Strings",
+        "task.json",
+        "task.loc.json",
+        ".npmrc"
+    ],
+    "taskClean": [
+        "Tests",
+        "*.js.map",
+        "package-lock.json",
+        ".npmrc"
+    ]
+}
