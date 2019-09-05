@@ -10,7 +10,8 @@
   "author": "INL",
   "license": "MIT",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha ../../_build/**/L0Tests.js",
+    "test-single": "powershell.exe -ExecutionPolicy RemoteSigned ../../VSCodeTestHelper.ps1"
   },
   "dependencies": {
     "azure-pipelines-task-lib": "^2.7.0"
