@@ -149,7 +149,7 @@ target.gendocs = function() {
 target.build = function() {
     target.clean();
 
-    ensureTool('tsc', '--version', 'Version 3.6.2');
+    ensureTool('tsc', '--version', 'Version 3.8.3');
     ensureTool('npm', '--version', function (output) {
         output = filterNpmVerbose(output);
         if (semver.lt(output, '5.6.0')) {
