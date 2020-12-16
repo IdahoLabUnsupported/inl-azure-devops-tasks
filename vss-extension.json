@@ -1,0 +1,83 @@
+{
+    "manifestVersion": 1,
+    "id": "pl-sql",
+    "name": "Execute PL/SQL",
+    "version": "2.0.2",
+    "publisher": "inl",
+    "public": false,
+    "targets": [
+      {
+        "id": "Microsoft.VisualStudio.Services"
+      }
+    ],
+    "description": "Execute PL/SQL script(s) using sqlplus",
+    "categories": [
+      "Azure Pipelines",
+      "Build and release"
+    ],
+    "tags": [
+      "Release",
+      "Pipeline",
+      "Microservices",
+      "Deploy",
+      "DevOps",
+      "Tasks",
+      "SQL",
+      "PL/SQL",
+      "Oracle"
+    ],
+    "icons": {
+      "default": "images/icon128.png",
+      "large": "images/icon512.png"
+    },
+    "content": {
+      "details": {
+        "path": "README.MD"
+      },
+      "changelog": {
+        "path": "CHANGELOG.md"
+      },
+      "privacy": {
+        "path": "PRIVACY.md"
+      },
+      "license": {
+        "path": "LICENSE"
+      }
+    },
+    "links": {
+      "getstarted": {
+        "uri": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+      },
+      "support": {
+        "uri": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks/issues"
+      },
+      "privacypolicy": {
+        "uri": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks/blob/master/PRIVACY.md"
+      }
+    },
+    "repository": {
+      "type": "git",
+      "uri": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+    },
+    "files": [
+      {
+        "path": "_build/Tasks"
+      },
+      {
+        "path": "images",
+        "addressable": true
+      }
+    ],
+    "contributions": [
+      {
+        "id": "pl-sql",
+        "type": "ms.vss-distributed-task.task",
+        "targets": [
+          "ms.vss-distributed-task.tasks"
+        ],
+        "properties": {
+          "name": "_build/Tasks"
+        }
+      }
+    ]
+  }
