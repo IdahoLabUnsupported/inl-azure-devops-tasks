@@ -1,3 +1,4 @@
+![](images/icon128.png)
 # Execute PL SQL
 Execute PL SQL Azure DevOps Build/Release Pipeline Task
 
