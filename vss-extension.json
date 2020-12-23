@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "pl-sql",
     "name": "Execute PL/SQL",
-    "version": "2.0.2",
+    "version": "2.2.0",
     "publisher": "inl",
     "public": false,
     "targets": [
