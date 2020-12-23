@@ -1,10 +1,28 @@
 ![](images/icon128.png)
 # Execute PL SQL
+
+- [Overview](#overview)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [How to use](#how-to-use)
+- [Other Software](#other-software)
+- [License](#license)
+
+## Overview
+
 Execute PL SQL Azure DevOps Build/Release Pipeline Task
 
+## Features
+
 Execute PL SQL provides the ability to execute PL SQL as inline script or a script file from a TFS/Azure DevOps build or release pipeline.  The task accepts connection information to allow running on any Oracle database.  There is even the ability to pass substitution variables to the script from the pipeline. The task is cross-platform and will run on Windows and Linux agents.
+
+## Prerequisites
+
+To use the Execute PL/SQL Task the agent machine that runs the pipeline will need to have sqlplus command-line utility installed either from the oracle install or as a separate client installation.  This can be obtained from Oracle.
+
+## How to use
  
-### Other Software
+## Other Software
 Idaho National Laboratory is a cutting edge research facility which is a constantly producing high quality research and software. Feel free to take a look at our other software and scientific offerings at:
 
 [Primary Technology Offerings Page](https://www.inl.gov/inl-initiatives/technology-deployment)
@@ -15,7 +33,7 @@ Idaho National Laboratory is a cutting edge research facility which is a constan
 
 [Unsupported Open Source Software](https://github.com/IdahoLabCuttingBoard)
 
-### License
+## License
 
 Copyright 2019 Battelle Energy Alliance, LLC
 
