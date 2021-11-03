@@ -32,6 +32,6 @@
     "sync-request": "3.0.1",
     "typed-rest-client": "^1.8.4",
     "typescript": "^3.9.9",
-    "validator": "3.33.0"
+    "validator": "13.7.0"
   }
 }
