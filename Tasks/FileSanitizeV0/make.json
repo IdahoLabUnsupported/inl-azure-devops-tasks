@@ -1,0 +1,7 @@
+{
+    "cp": [{
+        "source": "Tests/TestSourceFolder",
+        "dest": "Tests",
+        "options": "-R"
+    }]
+}

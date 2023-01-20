@@ -1,0 +1,125 @@
+{
+  "id": "bfd7f432-e0a4-4fe4-902f-0b0a50081eca",
+  "name": "INLNuGetNewVersionNumber",
+  "friendlyName": "NuGet New Version Number",
+  "description": "Gets a new version number based on the most recently published version.",
+  "author": "INL",
+  "helpMarkDown": "",
+  "category": "Package",
+  "visibility": ["Build"],
+  "demands": [],
+  "version": {
+    "Major": 0,
+    "Minor": 2,
+    "Patch": 4
+  },
+  "minimumAgentVersion": "2.165.1",
+  "instanceNameFormat": "Generate new NuGet $(UpdateType) version number for package: $(PackageId)",
+  "groups": [
+    {
+      "name": "output",
+      "displayName": "Output Variables",
+      "isExpanded": false
+    },
+    {
+      "name": "advanced",
+      "displayName": "Advanced Options",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "PackageId",
+      "type": "string",
+      "label": "Service Name",
+      "defaultValue": "$(PackageName)",
+      "required": true,
+      "helpMarkDown": "The name of the windows service."
+    },
+    {
+      "name": "UpdateType",
+      "type": "pickList",
+      "label": "Update Type",
+      "helpMarkDown": "The type of change in this update. [Semantic Versioning](https://semver.org/)",
+      "required": "true",
+      "properties": {
+        "EditableOptions": "False"
+      },
+      "options": {
+        "major": "Major. Incompatible or breaking public api changes.",
+        "minor": "Minor. New, backwards compatible functionality.",
+        "patch": "Patch. Backwards compatible bug fixes."
+      }
+    },
+    {
+      "name": "FeedPublish",
+      "type": "pickList",
+      "label": "Target feed",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Select a feed hosted in this account. You must have Azure Artifacts installed and licensed to select a feed here.",
+      "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+      "name": "OutputVariableNameReleaseVersion",
+      "type": "string",
+      "label": "Variable Name for Release Version",
+      "defaultValue": "ReleaseVersion",
+      "required": true,
+      "helpMarkDown": "The name of output variable that holds the Release Version string.",
+      "groupName": "output"
+    },
+    {
+      "name": "OutputVariableNamePrereleaseVersion",
+      "type": "string",
+      "label": "Variable Name for Pre-release Version",
+      "defaultValue": "PrereleaseVersion",
+      "required": true,
+      "helpMarkDown": "The name of output variable that holds the Pre-release Version string.",
+      "groupName": "output"
+    },
+    {
+      "name": "UpdateBuildNumber",
+      "type": "boolean",
+      "label": "Set build number to prerelease build number",
+      "defaultValue": "true",
+      "required": true,
+      "groupName": "advanced",
+      "helpMarkDown": "Sets build number to prerelease build number"
+    }
+  ],
+  "dataSourceBindings": [
+    {
+      "target": "FeedPublish",
+      "endpointId": "tfs:feed",
+      "endpointUrl": "{{endpoint.url}}/_apis/packaging/feeds?includeUrls=False",
+      "resultSelector": "jsonpath:$.value[*]",
+      "resultTemplate": "{ \"Value\" : \"{{#if project}}{{{project.id}}}\\/{{/if}}{{{id}}}\", \"DisplayValue\" : \"{{{name}}}\" }"
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "NuGetNewVersionNumber.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "LogInput": "Parameter '%s', Value '%s'",
+    "LogPredefinedVariable": "System Predefined Variable '%s', Value '%s'",
+    "Success": "\nGenerate new NuGet version number complete",
+    "UnhandledProcessFailure": "\nFailure during processing. Error: %s",
+    "CallingUri": "\nCalling Uri: \"%s\"",
+    "CallCompleted": "Call completed with status code %s",
+    "CountPublishedVersionsFound": "\n%s published versions found.",
+    "VersionPublishedDate": "Version %s published %s",
+    "LatestPublishedVersion": "\nLatest published version number is %s",
+    "SettingMinorPatch0": "\nSetting minor and patch versions to 0 since this is a new major version.",
+    "SettingPatch0": "\nSetting patch version to 0 since this is a new minor version.",
+    "IncrementingPatch": "\nIncrementing patch number.",
+    "NoReleasedPackage": "\nNo released package published",
+    "NewVersionNumber": "\nNew version number is %s",
+    "NewPrereleaseVersionNumber": "\nNew pre-release version number is %s"
+  }
+}

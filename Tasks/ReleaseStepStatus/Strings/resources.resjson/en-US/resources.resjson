@@ -1,0 +1,15 @@
+{
+  "loc.friendlyName": "Release Step Status",
+  "loc.helpMarkDown": "Replace with markdown to show in help",
+  "loc.description": "Looks up a step in the current release and sets a variable for it status.",
+  "loc.instanceNameFormat": "$(StepToLookup) Release Step Status",
+  "loc.group.displayName.Advanced": "Advanced",
+  "loc.input.label.StepToLookup": "Step To Lookup",
+  "loc.input.help.StepToLookup": "Identify which step in the release will have its status looked up.",
+  "loc.input.label.OutputVariable": "Output Variable",
+  "loc.input.help.OutputVariable": "The name of the variable that will be set with the Step Status.",
+  "loc.input.label.IgnoreInvalidSSL": "Ignore Invalid SSL",
+  "loc.input.help.IgnoreInvalidSSL": "When true an invalid SSL Certificate will be ignored.",
+  "loc.messages.Success": "Execute Release Step Status Complete",
+  "loc.messages.UnhandledProcessFailure": "Failure during processing. Error: %s"
+}

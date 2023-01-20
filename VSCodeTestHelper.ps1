@@ -1,6 +1,9 @@
 param(
     [Parameter(Mandatory = $true)]
-    [string]$TestName
+    [string]$TestName,
+
+    [Parameter(Mandatory = $false)]
+    [switch]$NoMocha
 )
 
 # Get our paths that we need
@@ -18,7 +21,18 @@ if (-Not $TestName.EndsWith(".js") -or -Not $TestName.EndsWith("*")) {
     $testPattern += "*.js"
 }
 
-Write-Output "node ./node_modules/mocha/bin/mocha $testPattern"
-Write-Output "-------------------------------------------------------------------------------------------------------------------------"
-& node ./node_modules/mocha/bin/mocha $testPattern
-Write-Output "-------------------------------------------------------------------------------------------------------------------------"
+if ($NoMocha) {
+    $files = Get-ChildItem $testPattern -Recurse
+    Write-Output "node $testPattern"
+    Write-Output "-------------------------------------------------------------------------------------------------------------------------"
+    foreach ($file in $files) {
+        & node $file.FullName
+    }
+    Write-Output "-------------------------------------------------------------------------------------------------------------------------"
+}
+else {
+    Write-Output "node ./node_modules/mocha/bin/mocha $testPattern"
+    Write-Output "-------------------------------------------------------------------------------------------------------------------------"
+    & node ./node_modules/mocha/bin/mocha $testPattern
+    Write-Output "-------------------------------------------------------------------------------------------------------------------------"
+}

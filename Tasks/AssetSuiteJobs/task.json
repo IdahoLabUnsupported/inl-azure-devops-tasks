@@ -1,0 +1,153 @@
+{
+  "id": "092deb30-5a18-11e9-bb20-471c14516116",
+  "name": "INLAssetSuite",
+  "friendlyName": "Asset Suite Jobs",
+  "description": "Run Commands on Asset Suite 9.X on job services",
+  "author": "INL",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "2",
+    "Patch": "4"
+  },
+  "minimumAgentVersion": "1.150.0",
+  "instanceNameFormat": "AssetSuite",
+  "groups": [
+      {
+          "name": "apiSettings",
+          "displayName": "API Settings",
+          "isExpanded": true
+      },
+      {
+        "name": "advanced",
+        "displayName": "Advanced",
+        "isExpanded": true
+      }
+  ],
+  "inputs": [
+      {
+          "name": "ActionType",
+          "type": "pickList",
+          "label": "Action",
+          "required": true,
+          "defaultValue": "LaunchJob",
+          "options": {
+              "LaunchJob": "Launch Asset Suite Job",
+              "JobStatus": "Check Asset Suite Job Status",
+              "WaitForAsync": "Wait for async job to finish"
+          },
+          "helpMarkDown": "What action should be taken with Asset Suite 9 jobs?"
+      },
+      {
+          "name": "ApiRootUri",
+          "type": "string",
+          "label": "API Root Url",
+          "defaultValue": "$(AssetSuite.ApiRootUri)",
+          "groupName": "apiSettings",
+          "required": true,
+          "helpMarkDown": "The root URI of the Asset Suite batch server REST APIs. *ie: https://as-dev.inl.gov/as/fa/rest/batch/*"
+      },
+      {
+          "name": "UserName",
+          "type": "string",
+          "label": "Username",
+          "defaultValue": "$(AssetSuite.Username)",
+          "groupName": "apiSettings",
+          "required": true,
+          "helpMarkDown": "The Username that will be used to connect to the Asset Suite batch server."
+      },
+      {
+          "name": "UserPassword",
+          "type": "string",
+          "label": "Password",
+          "defaultValue": "$(AssetSuite.Password)",
+          "groupName": "apiSettings",
+          "required": true,
+          "helpMarkDown": "The Password for the user that will be used to connect to the Asset Suite batch server."
+      },
+      {
+          "name": "JobName",
+          "type": "string",
+          "label": "Job Name",
+          "defaultValue": "$(AssetSuite.JobName)",
+          "visibleRule": "ActionType = LaunchJob",
+          "required": false,
+          "helpMarkDown": "The name of the job to kick off in Asset Suite (i.e. tibpbkin)."
+      },
+      {
+          "name": "JobParams",
+          "type": "string",
+          "label": "Job Parameters",
+          "defaultValue": "$(AssetSuite.JobParams)",
+          "visibleRule": "ActionType = LaunchJob",
+          "required": false,
+          "helpMarkDown": "The comma delimited string of job paramters for a job (i.e. facility=IFA,updateMode=UPDATE) in Asset Suite."
+      },
+      {
+          "name": "LaunchMode",
+          "type": "pickList",
+          "label": "Launch Mode",
+          "defaultValue": "async",
+          "options": {
+              "async": "Launch Asset Suite Job asynchronously",
+              "sync": "Launch Asset Suite Job synchronously"
+          },
+          "visibleRule": "ActionType = LaunchJob",
+          "required": false,
+          "helpMarkDown": "The launch mode of the job."
+      },
+      {
+          "name": "JobExecId",
+          "type": "string",
+          "label": "Job Execution Id",
+          "defaultValue": "$(AssetSuite.JobExecId)",
+          "visibleRule": "ActionType = JobStatus || ActionType = WaitForAsync",
+          "required": false,
+          "helpMarkDown": "The variable that will be set with the Id of the started job."
+      },
+      {
+        "name": "Timeout",
+        "type": "number",
+        "label": "Timeout",
+        "defaultValue": "0",
+        "visibleRule": "ActionType = WaitForAsync",
+        "required": false,
+        "helpMarkDown": "Timeout before job fails. 0 means there is no timeout"
+    },
+      {
+          "name": "IgnoreInvalidSSL",
+          "type": "boolean",
+          "label": "Ignore Invalid SSL",
+          "required": false,
+          "groupName": "advanced",
+          "helpMarkDown": "When true an invalid SSL Certificate will be ignored."
+      },
+      {
+        "name": "JobOutputVariable",
+        "type": "string",
+        "label": "Job Execution ID Variable Name",
+        "defaultValue": "AssetSuite.JobId",
+        "visibleRule": "ActionType = LaunchJob",
+        "required": false,
+        "helpMarkDown": "The variable that will be set with the Id of the started job."
+    }
+  ],
+  "execution": {
+    "Node10": {
+      "target": "AssetSuiteJobs.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+      "Success": "Asset Suite Job Complete",
+      "UnhandledProcessFailure": "Failure during processing. Error: %s"
+  }
+}

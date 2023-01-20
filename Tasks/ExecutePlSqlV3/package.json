@@ -1,0 +1,25 @@
+{
+  "name": "inl-execute-plsql-v3",
+  "version": "3.0.0",
+  "description": "Execute PL/SQL script in Git using sqlplus.",
+  "main": "ExecuteSqlPlus.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+  },
+  "author": "INL",
+  "private": true,
+  "scripts": {
+    "test": "mocha ../../_build/**/L0Tests.js",
+    "test-single": "powershell.exe -ExecutionPolicy RemoteSigned ../../VSCodeTestHelper.ps1"
+  },
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.7.7",
+    "strip-json-comments": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/q": "^1.5.2",
+    "mocha": "^5.2.0"
+  }
+}

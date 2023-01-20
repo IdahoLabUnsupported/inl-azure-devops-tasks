@@ -1,0 +1,12 @@
+{
+    "cp": [
+        {
+            "source": "Sql_Scripts",
+            "options": "-R"
+        },
+        {
+            "source": "DatabaseConfiguration",
+            "options": "-R"
+        }
+    ]
+}

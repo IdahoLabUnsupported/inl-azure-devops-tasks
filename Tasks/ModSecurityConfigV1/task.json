@@ -1,0 +1,66 @@
+{
+  "id": "16e49860-9160-11eb-9ac7-b70664c47968",
+  "name": "ModSecurityConfig",
+  "friendlyName": "ModSec Configuration",
+  "description": "Generates ModSec configuration files from json configuration files.",
+  "author": "INL",
+  "helpMarkDown": "Replace with markdown to show in help",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [],
+  "version": {
+    "Major": "1",
+    "Minor": "8",
+    "Patch": "1"
+  },
+  "releaseNotes": "Fix header roll down.",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "ModSecurityConfig $(ConfigurationRootPath)",
+  "inputs": [
+    {
+      "name": "ConfigurationRootPath",
+      "type": "filePath",
+      "label": "Config Root",
+      "defaultValue": "$(Config.Root)",
+      "required": true,
+      "helpMarkDown": "The top level directory where wafs and application json configurations are stored."
+    },
+    {
+      "name": "WafID",
+      "type": "string",
+      "label": "WAF ID",
+      "defaultValue": "$(WAF.Id)",
+      "required": true,
+      "helpMarkDown": "The ID of the WAF that should have configuration generated."
+    },
+    {
+      "name": "NginxConfigDirectory",
+      "type": "filePath",
+      "label": "NGINX Config Directory",
+      "defaultValue": "$(Nginx.Config.Directory)",
+      "required": true,
+      "helpMarkDown": "The path where the NGINX configuration files will be written."
+    },
+    {
+      "name": "ModsecConfigDirectory",
+      "type": "filePath",
+      "label": "ModSec Config Directory",
+      "defaultValue": "$(ModSec.Config.Directory)",
+      "required": true,
+      "helpMarkDown": "The path where the ModSec configuration files will be written."
+    }
+  ],
+  "execution": {
+    "Node10": {
+      "target": "GenerateConfig.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "Success": "Generate modsec Configuration Complete",
+    "UnhandledProcessFailure": "Failure during processing. Error: %s"
+  }
+}

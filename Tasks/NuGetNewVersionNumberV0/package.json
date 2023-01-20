@@ -1,0 +1,29 @@
+{
+  "name": "inl-nuget-new-version-number-v0",
+  "version": "0.2.1",
+  "description": "Gets a new version number based on the most recently published version.",
+  "main": "NuGetNewVersionNumber.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+  },
+  "author": "INL",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --prefix ../../ -- --dev --task=NuGetNewVersionNumberV0",
+    "test": "mocha ../../_build/**/L0Tests.js",
+    "build-test-single": "npm run build && npm run test-single",
+    "test-single": "powershell.exe -ExecutionPolicy RemoteSigned ../../VSCodeTestHelper.ps1",
+    "update": "npx npm-check-updates --target minor -u && npm i"
+  },
+  "dependencies": {
+    "azure-devops-node-api": "^11.1.0",
+    "azure-pipelines-task-lib": "^2.12.2",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/q": "^1.5.5",
+    "mocha": "^5.2.0"
+  }
+}

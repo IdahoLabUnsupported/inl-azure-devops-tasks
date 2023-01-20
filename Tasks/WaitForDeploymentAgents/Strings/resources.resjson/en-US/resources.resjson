@@ -1,0 +1,17 @@
+{
+  "loc.friendlyName": "Wait For Deployment Agents",
+  "loc.helpMarkDown": "Use to wait for deployment group agents to be online or offline",
+  "loc.description": "Will wait for deployment agents to reach specified status",
+  "loc.instanceNameFormat": "Wait For Agents $(PoolName)",
+  "loc.group.displayName.Advanced": "Advanced",
+  "loc.input.label.PoolName": "Pool Name",
+  "loc.input.help.PoolName": "The name of the deployment pool at the collection level.",
+  "loc.input.label.StatusType": "Status Type",
+  "loc.input.help.StatusType": "What status all the agents in the pool should be.",
+  "loc.input.label.Token": "Token",
+  "loc.input.help.Token": "The TFS token that will be used to check the status of the deployment group.",
+  "loc.input.label.IgnoreInvalidSSL": "Ignore Invalid SSL",
+  "loc.input.help.IgnoreInvalidSSL": "When true an invalid SSL Certificate will be ignored.",
+  "loc.messages.UnhandledProcessFailure": "Failure during processing. Error: %s",
+  "loc.messages.ConnectingTo": "Connecting to %s"
+}
