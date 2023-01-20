@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "azure-devops-node-api": "^7.0.0",
-    "azure-pipelines-task-lib": "^2.7.0"
+    "azure-pipelines-task-lib": "^4.2.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
