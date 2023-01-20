@@ -1,0 +1,19 @@
+{
+  "loc.friendlyName": "Git Diff",
+  "loc.helpMarkDown": "Will store the results in the variables $(Git.Diff.Added), $(Git.Diff.Modified), $(Git.Diff.Deleted), $(Git.Diff.Copied), $(Git.Diff.Renamed), and $(Git.Diff.TypeChanged).  Will also be stored in the JSON file when a file path is specified.",
+  "loc.description": "Does a git diff for two commits and puts in variables or JSON file.",
+  "loc.instanceNameFormat": "Git Diff",
+  "loc.input.label.StartCommit": "Start Commit",
+  "loc.input.help.StartCommit": "The start commit that will be used for the git diff.",
+  "loc.input.label.EndCommit": "End Commit",
+  "loc.input.help.EndCommit": "The ending commit that will be used for the git diff.",
+  "loc.input.label.RepoLocation": "Repository Location",
+  "loc.input.help.RepoLocation": "The git repository path to perform git diff on.",
+  "loc.input.label.JsonResultsFile": "JSON Results File",
+  "loc.input.help.JsonResultsFile": "When specified the results will be written to a JSON file at the specified path.",
+  "loc.input.label.SetOutputVariables": "Set Output Variables",
+  "loc.input.help.SetOutputVariables": "Determine if output variables should be set",
+  "loc.messages.Success": "Execute Get Diff Complete",
+  "loc.messages.UnhandledProcessFailure": "Failure during processing. Error: %s",
+  "loc.messages.GitError": "Git diff failed: %s"
+}

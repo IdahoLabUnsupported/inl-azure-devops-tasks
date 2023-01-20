@@ -13,7 +13,6 @@
 _[Bb]uild/
 _download/
 .taskkey
-Strings/
 task.loc.json
 
 # User-specific files

@@ -1,0 +1,18 @@
+{
+  "loc.friendlyName": "Get Previous Commit Id",
+  "loc.helpMarkDown": "",
+  "loc.description": "Gets the Commit Id for a Git artifact from the previous deployment and places in the variable $(Artifact.Previous.Commit)",
+  "loc.instanceNameFormat": "Get Previous Commit Id for $(ArtifactAliasName)",
+  "loc.group.displayName.Advanced": "Advanced",
+  "loc.input.label.ArtifactAliasName": "Artifact Alias Name",
+  "loc.input.help.ArtifactAliasName": "The name of the Git Artifact Alias that the previous commit id will be looked up.",
+  "loc.input.label.IgnoreInvalidSSL": "Ignore Invalid SSL",
+  "loc.input.help.IgnoreInvalidSSL": "When true an invalid SSL Certificate will be ignored.",
+  "loc.messages.Success": "Execute Get Previous Commit Id Complete",
+  "loc.messages.UnhandledProcessFailure": "Failure during processing. Error: %s",
+  "loc.messages.NoAccessToken": "Unable to locate access token.  Please make sure you have enabled the 'Allow scripts to access OAuth token' setting.",
+  "loc.messages.ConnectingTo": "Connecting to %s",
+  "loc.messages.GetCurrentRelease": "Getting the current release details",
+  "loc.messages.FindPreviousCommit": "Find previous commit for Artifiact: %s",
+  "loc.messages.FoundPreviousCommit": "Found previous commit id of '%s' for %s"
+}

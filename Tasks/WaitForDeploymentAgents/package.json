@@ -1,0 +1,25 @@
+{
+  "name": "inl-waitfor-deployment-agents",
+  "version": "0.3.0",
+  "description": "Will wait for deployment agents to reach specified status",
+  "main": "WaitForAgents.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+  },
+  "author": "INL",
+  "private": true,
+  "scripts": {
+    "test": "mocha ../../_build/**/L0Tests.js",
+    "test-single": "powershell.exe -ExecutionPolicy RemoteSigned ../../VSCodeTestHelper.ps1"
+  },
+  "dependencies": {
+    "azure-devops-node-api": "^7.0.0",
+    "azure-pipelines-task-lib": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/q": "^1.5.1",
+    "mocha": "^5.2.0"
+  }
+}

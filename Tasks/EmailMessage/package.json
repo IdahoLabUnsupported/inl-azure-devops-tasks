@@ -1,0 +1,26 @@
+{
+  "name": "inl-emailmessage",
+  "version": "0.5.2",
+  "description": "Send an SMTP email message to the specified recipients",
+  "main": "SendEmail.js",
+  "scripts": {
+    "test": "mocha ../../_build/**/L0Tests.js",
+    "test-single": "powershell.exe -ExecutionPolicy RemoteSigned ../../VSCodeTestHelper.ps1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+  },
+  "author": "INL",
+  "license": "MIT",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.12.1",
+    "nodemailer": "^6.4.17"
+  },
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/nodemailer": "^6.4.0",
+    "@types/q": "^1.5.4",
+    "mocha": "^7.2.0"
+  }
+}

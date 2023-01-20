@@ -1,0 +1,82 @@
+{
+  "id": "ca21a11e-dff6-43a3-910c-df16d21bf6b9",
+  "name": "INLFileSanitizeV0",
+  "friendlyName": "File Sanitize",
+  "description": "Removes unwanted characters from files e.g. carriage returns, tabs etc.",
+  "author": "INL",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+  ],
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 2
+  },
+  "releaseNotes": "Initial Release",
+  "minimumAgentVersion": "1.104.0",
+  "inputs": [
+    {
+      "name": "SourceFolder",
+      "type": "filePath",
+      "label": "Source Folder",
+      "defaultValue": "$(System.DefaultWorkingDirectory)",
+      "required": true,
+      "helpMarkDown": "The source folder that the copy pattern(s) will be run from.  Empty is the root of the repository.  Use [variables](https://go.microsoft.com/fwlink/?LinkID=550988) if files are not in the repositories. Example: $(agent.builddirectory)"
+    },
+    {
+      "name": "Files",
+      "type": "multiLine",
+      "label": "Files",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "File paths to sanitize. Supports multiple lines of match patterns."
+    },
+    {
+      "name": "ContinueProcessingOnError",
+      "type": "boolean",
+      "label": "Continue Processing on Error",
+      "defaultValue": "false",
+      "required": true,
+      "helpMarkDown": "Continues to process additional files if one throws errors."
+    },
+    {
+      "name": "RemoveCarriageReturns",
+      "type": "boolean",
+      "label": "Remove Carriage Returns",
+      "defaultValue": "true",
+      "required": true,
+      "helpMarkDown": "Removes Carriage Returns from given files"
+    },
+    {
+      "name": "RemoveTabs",
+      "type": "boolean",
+      "label": "Remove Tabs",
+      "defaultValue": "true",
+      "required": true,
+      "helpMarkDown": "Removes Tabs from given files"
+    }
+  ],
+  "instanceNameFormat": "File Sanitize",
+  "execution": {
+    "Node": {
+      "target": "FileSanitize.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "LogInputs": "Parameter '%s', Value '%s'",
+    "FoundFileCount": "Found %s matching file(s)",
+    "FoundFile": "File found: %s",
+    "ProcessingFile": "Processing File: %s",
+    "Success": "File Sanitize Complete",
+    "ReadFailure": "Failed to read the file. File path: %s. Error: %s",
+    "WriteFailure": "Failed to write the file. File path: %s. Error: %s",
+    "UnhandledFileFailure": "Failure while processing file. File path: %s. Error: %s",
+    "UnhandledProcessFailure": "Failure during processing. Error: %s"
+  }
+}
