@@ -28,7 +28,7 @@
     "node-uuid": "1.4.6",
     "q": "1.4.1",
     "semver": "4.3.3",
-    "shelljs": "^0.3.0",
+    "shelljs": "^0.8.5",
     "sync-request": "3.0.1",
     "typed-rest-client": "^1.8.4",
     "typescript": "^3.9.9",
