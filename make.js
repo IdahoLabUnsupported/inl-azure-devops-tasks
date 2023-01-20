@@ -1,3 +1,5 @@
+// This was forked from the make task in the Microsoft Azure DevOps Task library
+
 // parse command line options
 var minimist = require('minimist');
 var mopts = {

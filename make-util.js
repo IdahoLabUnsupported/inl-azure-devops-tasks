@@ -1,3 +1,5 @@
+// This was forked from the make task in the Microsoft Azure DevOps Task library
+
 var check = require('validator');
 var fs = require('fs');
 var makeOptions = require('./make-options.json');
