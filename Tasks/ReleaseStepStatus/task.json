@@ -1,0 +1,65 @@
+{
+  "id": "2d8b0d20-2bea-11e9-8adc-effb86a5c71c",
+  "name": "INLReleaseStepStatus",
+  "friendlyName": "Release Step Status",
+  "description": "Looks up a step in the current release and sets a variable for it status.",
+  "author": "INL",
+  "helpMarkDown": "Replace with markdown to show in help",
+  "category": "Utility",
+  "visibility": [
+    "Release"
+  ],
+  "demands": [],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "6"
+  },
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "$(StepToLookup) Release Step Status",
+  "groups": [{
+    "name": "Advanced",
+    "displayName": "Advanced",
+    "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "StepToLookup",
+      "type": "pickList",
+      "label": "Step To Lookup",
+      "required": true,
+      "defaultValue": "Previous",
+      "options": {
+        "Previous": "Previous"
+      },
+      "helpMarkDown": "Identify which step in the release will have its status looked up."
+    },
+    {
+      "name": "OutputVariable",
+      "type": "string",
+      "label": "Output Variable",
+      "defaultValue": "Release.Step.Status",
+      "required": true,
+      "helpMarkDown": "The name of the variable that will be set with the Step Status."
+    },
+    {
+      "name": "IgnoreInvalidSSL",
+      "type": "boolean",
+      "label": "Ignore Invalid SSL",
+      "required": false,
+      "groupName": "Advanced",
+      "helpMarkDown": "When true an invalid SSL Certificate will be ignored."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "GetReleaseStepStatus.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "Success": "Execute Release Step Status Complete",
+    "UnhandledProcessFailure": "Failure during processing. Error: %s"
+  }
+}

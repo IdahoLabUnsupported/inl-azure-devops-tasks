@@ -1,0 +1,21 @@
+{
+  "loc.friendlyName": "Git Common Ancestor",
+  "loc.helpMarkDown": "",
+  "loc.description": "Gets the common git commit hash between two supplied commits and places in a variable",
+  "loc.instanceNameFormat": "Git Common Ancestor",
+  "loc.releaseNotes": "Use origin/master instead.",
+  "loc.input.label.FirstCommit": "First Commit",
+  "loc.input.help.FirstCommit": "The first commit that will be checked.  Typically HEAD commit.",
+  "loc.input.label.SecondCommit": "Second Commit",
+  "loc.input.help.SecondCommit": "The second commit that will be checked.",
+  "loc.input.label.RepoLocation": "Repository Location",
+  "loc.input.help.RepoLocation": "The git repository path to check for common ancestor.",
+  "loc.input.label.OutputVariable": "Output Variable",
+  "loc.input.help.OutputVariable": "The name of the variable that will be set with the common ancestor.",
+  "loc.messages.Success": "Execute Get Common Ancestor Complete",
+  "loc.messages.UnhandledProcessFailure": "Failure during processing. Error: %s",
+  "loc.messages.GitErrorCode": "Git command failed with exit code %s",
+  "loc.messages.MissingSecondCommit": "Missing Second Commit so falling back to first commit of Repository",
+  "loc.messages.FoundCommonAncestor": "Found Common Ancestor of '%s'",
+  "loc.messages.CommitNotValid": "The commit '%s' is not valid, falling back to using HEAD of master branch"
+}

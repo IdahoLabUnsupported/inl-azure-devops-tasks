@@ -1,0 +1,28 @@
+{
+  "name": "inl-assetsuite-jobs",
+  "version": "0.2.3",
+  "description": "Run Job Commands on Asset Suite",
+  "main": "AssetSuiteJobs.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IdahoLabCuttingBoard/inl-azure-devops-tasks"
+  },
+  "author": "INL",
+  "private": true,
+  "scripts": {
+    "test": "mocha ../../_build/**/L0Tests.js",
+    "test-single": "powershell.exe -ExecutionPolicy RemoteSigned ../../VSCodeTestHelper.ps1"
+  },
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0",
+    "child_process": "^1.0.2",
+    "inl-assetsuite-lib": "^0.6.2",
+    "jshint": "^2.10.2",
+    "typed-rest-client": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/q": "^1.5.1",
+    "mocha": "^5.2.0"
+  }
+}

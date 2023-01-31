@@ -1,0 +1,70 @@
+{
+  "id": "78502930-20f0-11e9-a01c-9384e9d9f026",
+  "name": "INLGitCommonAncestor",
+  "friendlyName": "Git Common Ancestor",
+  "description": "Gets the common git commit hash between two supplied commits and places in a variable",
+  "author": "INL",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [],
+  "version": {
+    "Major": "0",
+    "Minor": "2",
+    "Patch": "1"
+  },
+  "releaseNotes": "Use origin/master instead.",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Git Common Ancestor",
+  "inputs": [
+    {
+      "name": "FirstCommit",
+      "type": "string",
+      "label": "First Commit",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The first commit that will be checked.  Typically HEAD commit."
+    },
+    {
+      "name": "SecondCommit",
+      "type": "string",
+      "label": "Second Commit",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "The second commit that will be checked."
+    },
+    {
+      "name": "RepoLocation",
+      "type": "filePath",
+      "label": "Repository Location",
+      "defaultValue": "$(System.DefaultWorkingDirectory)/RepoNameHere/",
+      "required": true,
+      "helpMarkDown": "The git repository path to check for common ancestor."
+    },
+    {
+      "name": "OutputVariable",
+      "type": "string",
+      "label": "Output Variable",
+      "defaultValue": "Artifact.CommonAncestor",
+      "required": true,
+      "helpMarkDown": "The name of the variable that will be set with the common ancestor."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "GitAncestor.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "Success": "Execute Get Common Ancestor Complete",
+    "UnhandledProcessFailure": "Failure during processing. Error: %s",
+    "GitErrorCode": "Git command failed with exit code %s",
+    "MissingSecondCommit": "Missing Second Commit so falling back to first commit of Repository",
+    "FoundCommonAncestor": "Found Common Ancestor of '%s'",
+    "CommitNotValid": "The commit '%s' is not valid, falling back to using HEAD of master branch"
+  }
+}

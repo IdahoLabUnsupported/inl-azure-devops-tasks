@@ -1,0 +1,17 @@
+{
+  "loc.friendlyName": "ModSec Configuration",
+  "loc.helpMarkDown": "Replace with markdown to show in help",
+  "loc.description": "Generates ModSec configuration files from json configuration files.",
+  "loc.instanceNameFormat": "ModSecurityConfig $(ConfigurationRootPath)",
+  "loc.releaseNotes": "Fix header roll down.",
+  "loc.input.label.ConfigurationRootPath": "Config Root",
+  "loc.input.help.ConfigurationRootPath": "The top level directory where wafs and application json configurations are stored.",
+  "loc.input.label.WafID": "WAF ID",
+  "loc.input.help.WafID": "The ID of the WAF that should have configuration generated.",
+  "loc.input.label.NginxConfigDirectory": "NGINX Config Directory",
+  "loc.input.help.NginxConfigDirectory": "The path where the NGINX configuration files will be written.",
+  "loc.input.label.ModsecConfigDirectory": "ModSec Config Directory",
+  "loc.input.help.ModsecConfigDirectory": "The path where the ModSec configuration files will be written.",
+  "loc.messages.Success": "Generate modsec Configuration Complete",
+  "loc.messages.UnhandledProcessFailure": "Failure during processing. Error: %s"
+}

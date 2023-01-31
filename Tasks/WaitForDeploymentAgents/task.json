@@ -1,0 +1,72 @@
+{
+  "id": "e62a6d80-ba24-11e9-902e-4d51eb6b1c8f",
+  "name": "WaitForDeploymentAgents",
+  "friendlyName": "Wait For Deployment Agents",
+  "description": "Will wait for deployment agents to reach specified status",
+  "author": "INL",
+  "helpMarkDown": "Use to wait for deployment group agents to be online or offline",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [],
+  "version": {
+    "Major": "0",
+    "Minor": "3",
+    "Patch": "0"
+  },
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Wait For Agents $(PoolName)",
+    "groups": [{
+        "name": "Advanced",
+        "displayName": "Advanced",
+        "isExpanded": true
+    }],
+  "inputs": [
+    {
+      "name": "PoolName",
+      "type": "string",
+      "label": "Pool Name",
+      "required": true,
+      "helpMarkDown": "The name of the deployment pool at the collection level."
+    },
+    {
+      "name": "StatusType",
+      "type": "pickList",
+      "label": "Status Type",
+      "required": true,
+      "defaultValue": "Online",
+      "options": {
+        "Online": "Online",
+        "Offline": "Offline"
+      },
+      "helpMarkDown": "What status all the agents in the pool should be."
+    },
+    {
+      "name": "Token",
+      "type": "string",
+      "label": "Token",
+      "required": true,
+      "helpMarkDown": "The TFS token that will be used to check the status of the deployment group."
+    },
+    {
+      "name": "IgnoreInvalidSSL",
+      "type": "boolean",
+      "label": "Ignore Invalid SSL",
+      "required": false,
+      "groupName": "Advanced",
+      "helpMarkDown": "When true an invalid SSL Certificate will be ignored."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "WaitForAgents.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "UnhandledProcessFailure": "Failure during processing. Error: %s",
+    "ConnectingTo": "Connecting to %s"
+  }
+}
